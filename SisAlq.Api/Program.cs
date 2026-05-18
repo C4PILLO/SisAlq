@@ -75,7 +75,10 @@ app.UseAuthorization();
 
 // ─── Endpoints ────────────────────────────────────────────────
 app.MapAuthEndpoints();
-app.MapInmuebleEndpoints(); //  ← Avance 3
-app.MapInquilinoEndpoints();//  ← Avance 4
+app.MapInmuebleEndpoints(); 
+app.MapInquilinoEndpoints();
+
+// ─── Health check ─────────────────────────────────────────────
+app.MapGet("/health", () => Results.Ok("healthy")).AllowAnonymous();
 
 app.Run();
