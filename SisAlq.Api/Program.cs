@@ -14,6 +14,20 @@ builder.Services.AddDbContext<SisAlqDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+// ─── CORS ─────────────────────────────────────────────────────
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("SisAlqPolicy", policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost:5173",
+                "https://gestion-pro-yw4g.vercel.app"
+              )
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // ─── JWT ──────────────────────────────────────────────────────
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -70,15 +84,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("SisAlqPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
 // ─── Endpoints ────────────────────────────────────────────────
-app.MapAuthEndpoints();
-app.MapInmuebleEndpoints(); 
-app.MapInquilinoEndpoints();
-
-// ─── Health check ─────────────────────────────────────────────
 app.MapGet("/health", () => Results.Ok("healthy")).AllowAnonymous();
+app.MapAuthEndpoints();
+app.MapInmuebleEndpoints();
+app.MapInquilinoEndpoints();
 
 app.Run();
