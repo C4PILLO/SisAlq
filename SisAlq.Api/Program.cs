@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using SisAlq.Api.Data;
 using SisAlq.Api.Endpoints;
 using SisAlq.Api.Services;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,6 +81,12 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+    {
+        options.WithTitle("SisAlq API — MAEL S.R.L.")
+               .WithTheme(ScalarTheme.DeepSpace)
+               .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+    });
     app.UseDeveloperExceptionPage();
 }
 
