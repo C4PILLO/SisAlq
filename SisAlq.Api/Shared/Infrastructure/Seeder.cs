@@ -1,5 +1,4 @@
 using SisAlq.Api.Shared.Data;
-using SisAlq.Api.Shared.Data;
 
 namespace SisAlq.Api.Shared.Infrastructure;
 

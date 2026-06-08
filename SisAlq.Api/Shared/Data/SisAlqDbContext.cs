@@ -1,3 +1,4 @@
+// Reemplazar el bloque completo del archivo
 using Microsoft.EntityFrameworkCore;
 using SisAlq.Api.Shared.Models;
 using SisAlq.Api.Shared.Models.Catalogos;
@@ -13,6 +14,8 @@ public class SisAlqDbContext : DbContext
     public DbSet<Inmueble> Inmuebles => Set<Inmueble>();
     public DbSet<Inquilino> Inquilinos => Set<Inquilino>();
     public DbSet<Usuario> Usuarios => Set<Usuario>();
+    public DbSet<ContratoCab> ContratosCab => Set<ContratoCab>();
+    public DbSet<ContratoDet> ContratosDetalle => Set<ContratoDet>();
 
     // Tablas de catálogo
     public DbSet<TipoInmueble> TiposInmueble => Set<TipoInmueble>();
@@ -22,6 +25,7 @@ public class SisAlqDbContext : DbContext
     public DbSet<TipoDocumento> TiposDocumento => Set<TipoDocumento>();
     public DbSet<Moneda> Monedas => Set<Moneda>();
     public DbSet<Rol> Roles => Set<Rol>();
+    public DbSet<EstadoContrato> EstadosContrato => Set<EstadoContrato>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
