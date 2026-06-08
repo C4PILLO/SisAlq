@@ -1,4 +1,4 @@
-namespace SisAlq.Api.Features.Inquilinos;
+﻿namespace SisAlq.Api.Features.Inquilinos;
 
 public static class InquilinoEndpoints
 {
@@ -13,6 +13,10 @@ public static class InquilinoEndpoints
 
         group.MapGet("/{id:int}", GetInquilinoById.Handle)
              .WithSummary("Obtener inquilino por ID");
+
+        group.MapGet("/consultar-documento", ConsultarDocumento.Handle)
+             .WithSummary("Validar DNI o RUC via apisperu.com")
+             .RequireAuthorization(p => p.RequireRole("Administrador", "Asistente"));
 
         group.MapPost("/", CreateInquilino.Handle)
              .WithSummary("Registrar nuevo inquilino (HU-002)")

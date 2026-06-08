@@ -12,6 +12,7 @@ builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddJwtAuth(builder.Configuration);
 builder.Services.AddCorsPolicy(builder.Configuration);
 builder.Services.AddOpenApiDocs();
+builder.Services.AddHttpClient("ApisPeruClient");
 
 var app = builder.Build();
 
