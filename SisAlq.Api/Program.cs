@@ -1,4 +1,4 @@
-using SisAlq.Api.Features.Auth;
+﻿using SisAlq.Api.Features.Auth;
 using SisAlq.Api.Features.Inmuebles;
 using SisAlq.Api.Features.Inquilinos;
 using SisAlq.Api.Shared.Extensions;
@@ -17,6 +17,7 @@ var app = builder.Build();
 
 // ─── Seeder ───────────────────────────────────────────────────
 await app.SeedAdminUserAsync();
+await app.SeedEstadosContratoAsync();
 
 // ─── Pipeline ─────────────────────────────────────────────────
 app.UseErrorHandling();
