@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using SisAlq.Api.Data;
+using SisAlq.Api.Shared.Data;
 
 #nullable disable
 
@@ -22,7 +22,25 @@ namespace SisAlq.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("SisAlq.Api.Models.Catalogos.EstadoInmueble", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Catalogos.EstadoContrato", b =>
+                {
+                    b.Property<int>("IdEstadoContrato")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdEstadoContrato"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.HasKey("IdEstadoContrato");
+
+                    b.ToTable("ESTADO_CONTRATO", (string)null);
+                });
+
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Catalogos.EstadoInmueble", b =>
                 {
                     b.Property<int>("IdEstadoInmueble")
                         .ValueGeneratedOnAdd()
@@ -40,7 +58,7 @@ namespace SisAlq.Api.Migrations
                     b.ToTable("ESTADO_INMUEBLE", (string)null);
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Catalogos.Moneda", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Catalogos.Moneda", b =>
                 {
                     b.Property<int>("IdMoneda")
                         .ValueGeneratedOnAdd()
@@ -58,7 +76,7 @@ namespace SisAlq.Api.Migrations
                     b.ToTable("MONEDA", (string)null);
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Catalogos.Rol", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Catalogos.Rol", b =>
                 {
                     b.Property<int>("IdRol")
                         .ValueGeneratedOnAdd()
@@ -84,7 +102,7 @@ namespace SisAlq.Api.Migrations
                     b.ToTable("ROLES", (string)null);
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Catalogos.Sector", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Catalogos.Sector", b =>
                 {
                     b.Property<int>("IdSector")
                         .ValueGeneratedOnAdd()
@@ -102,7 +120,7 @@ namespace SisAlq.Api.Migrations
                     b.ToTable("SECTOR_ZONA", (string)null);
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Catalogos.TipoCliente", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Catalogos.TipoCliente", b =>
                 {
                     b.Property<int>("IdTipoCliente")
                         .ValueGeneratedOnAdd()
@@ -120,7 +138,7 @@ namespace SisAlq.Api.Migrations
                     b.ToTable("TIPO_CLIENTE", (string)null);
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Catalogos.TipoDocumento", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Catalogos.TipoDocumento", b =>
                 {
                     b.Property<int>("IdTDocumento")
                         .ValueGeneratedOnAdd()
@@ -138,7 +156,7 @@ namespace SisAlq.Api.Migrations
                     b.ToTable("TIPO_DOCUMENTO", (string)null);
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Catalogos.TipoInmueble", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Catalogos.TipoInmueble", b =>
                 {
                     b.Property<int>("IdTipoInmueble")
                         .ValueGeneratedOnAdd()
@@ -156,7 +174,108 @@ namespace SisAlq.Api.Migrations
                     b.ToTable("TIPO_INMUEBLE", (string)null);
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Inmueble", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.ContratoCab", b =>
+                {
+                    b.Property<int>("IdContrato")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdContrato"));
+
+                    b.Property<DateOnly>("FechaContrato")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("FechaInicio")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("NOW()");
+
+                    b.Property<DateOnly>("FechaVcmto")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Garantia")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<int>("IdEstadoContrato")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IdInquilino")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IdMoneda")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("NroContrato")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<int>("NroMeses")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Representante")
+                        .HasMaxLength(70)
+                        .HasColumnType("character varying(70)");
+
+                    b.Property<string>("TipoNegocio")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("IdContrato");
+
+                    b.HasIndex("IdEstadoContrato");
+
+                    b.HasIndex("IdInquilino");
+
+                    b.HasIndex("IdMoneda");
+
+                    b.HasIndex("IdUsuario");
+
+                    b.HasIndex("NroContrato")
+                        .IsUnique();
+
+                    b.ToTable("CONTRATO_CAB", (string)null);
+                });
+
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.ContratoDet", b =>
+                {
+                    b.Property<int>("IdContratoDet")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdContratoDet"));
+
+                    b.Property<int>("IdContrato")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IdInmueble")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("NroMesPPago")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("NroMeses")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("RentaMensual")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.HasKey("IdContratoDet");
+
+                    b.HasIndex("IdContrato");
+
+                    b.HasIndex("IdInmueble");
+
+                    b.ToTable("CONTRATO_DET", (string)null);
+                });
+
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Inmueble", b =>
                 {
                     b.Property<int>("IdInmueble")
                         .ValueGeneratedOnAdd()
@@ -222,7 +341,7 @@ namespace SisAlq.Api.Migrations
                     b.ToTable("INMUEBLES", (string)null);
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Inquilino", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Inquilino", b =>
                 {
                     b.Property<int>("IdInquilino")
                         .ValueGeneratedOnAdd()
@@ -285,7 +404,7 @@ namespace SisAlq.Api.Migrations
                     b.ToTable("CLIENTE", (string)null);
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Usuario", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Usuario", b =>
                 {
                     b.Property<int>("IdUsuario")
                         .ValueGeneratedOnAdd()
@@ -334,27 +453,81 @@ namespace SisAlq.Api.Migrations
                     b.ToTable("USUARIO", (string)null);
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Inmueble", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.ContratoCab", b =>
                 {
-                    b.HasOne("SisAlq.Api.Models.Catalogos.EstadoInmueble", "EstadoInmueble")
+                    b.HasOne("SisAlq.Api.Shared.Models.Catalogos.EstadoContrato", "EstadoContrato")
                         .WithMany()
-                        .HasForeignKey("IdEstadoInmueble")
+                        .HasForeignKey("IdEstadoContrato")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SisAlq.Api.Models.Catalogos.Moneda", "Moneda")
+                    b.HasOne("SisAlq.Api.Shared.Models.Inquilino", "Inquilino")
+                        .WithMany()
+                        .HasForeignKey("IdInquilino")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SisAlq.Api.Shared.Models.Catalogos.Moneda", "Moneda")
                         .WithMany()
                         .HasForeignKey("IdMoneda")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SisAlq.Api.Models.Catalogos.Sector", "Sector")
+                    b.HasOne("SisAlq.Api.Shared.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EstadoContrato");
+
+                    b.Navigation("Inquilino");
+
+                    b.Navigation("Moneda");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.ContratoDet", b =>
+                {
+                    b.HasOne("SisAlq.Api.Shared.Models.ContratoCab", "Contrato")
+                        .WithMany("Detalle")
+                        .HasForeignKey("IdContrato")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SisAlq.Api.Shared.Models.Inmueble", "Inmueble")
+                        .WithMany()
+                        .HasForeignKey("IdInmueble")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contrato");
+
+                    b.Navigation("Inmueble");
+                });
+
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Inmueble", b =>
+                {
+                    b.HasOne("SisAlq.Api.Shared.Models.Catalogos.EstadoInmueble", "EstadoInmueble")
+                        .WithMany()
+                        .HasForeignKey("IdEstadoInmueble")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SisAlq.Api.Shared.Models.Catalogos.Moneda", "Moneda")
+                        .WithMany()
+                        .HasForeignKey("IdMoneda")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SisAlq.Api.Shared.Models.Catalogos.Sector", "Sector")
                         .WithMany()
                         .HasForeignKey("IdSector")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SisAlq.Api.Models.Catalogos.TipoInmueble", "TipoInmueble")
+                    b.HasOne("SisAlq.Api.Shared.Models.Catalogos.TipoInmueble", "TipoInmueble")
                         .WithMany()
                         .HasForeignKey("IdTipoInmueble")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -369,15 +542,15 @@ namespace SisAlq.Api.Migrations
                     b.Navigation("TipoInmueble");
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Inquilino", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Inquilino", b =>
                 {
-                    b.HasOne("SisAlq.Api.Models.Catalogos.TipoDocumento", "TipoDocumento")
+                    b.HasOne("SisAlq.Api.Shared.Models.Catalogos.TipoDocumento", "TipoDocumento")
                         .WithMany()
                         .HasForeignKey("IdTDocumento")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SisAlq.Api.Models.Catalogos.TipoCliente", "TipoCliente")
+                    b.HasOne("SisAlq.Api.Shared.Models.Catalogos.TipoCliente", "TipoCliente")
                         .WithMany()
                         .HasForeignKey("IdTipoCliente")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -388,15 +561,20 @@ namespace SisAlq.Api.Migrations
                     b.Navigation("TipoDocumento");
                 });
 
-            modelBuilder.Entity("SisAlq.Api.Models.Usuario", b =>
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.Usuario", b =>
                 {
-                    b.HasOne("SisAlq.Api.Models.Catalogos.Rol", "Rol")
+                    b.HasOne("SisAlq.Api.Shared.Models.Catalogos.Rol", "Rol")
                         .WithMany()
                         .HasForeignKey("IdRol")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Rol");
+                });
+
+            modelBuilder.Entity("SisAlq.Api.Shared.Models.ContratoCab", b =>
+                {
+                    b.Navigation("Detalle");
                 });
 #pragma warning restore 612, 618
         }
