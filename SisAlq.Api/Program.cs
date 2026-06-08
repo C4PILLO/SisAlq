@@ -1,4 +1,5 @@
 ﻿using SisAlq.Api.Features.Auth;
+using SisAlq.Api.Features.Contratos;
 using SisAlq.Api.Features.Inmuebles;
 using SisAlq.Api.Features.Inquilinos;
 using SisAlq.Api.Shared.Extensions;
@@ -33,5 +34,6 @@ app.MapGet("/health", () => Results.Ok("healthy")).AllowAnonymous();
 app.MapAuthEndpoints();
 app.MapInmuebleEndpoints();
 app.MapInquilinoEndpoints();
+app.MapContratoEndpoints();
 
 app.Run();
