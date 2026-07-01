@@ -1,4 +1,3 @@
-// Reemplazar el bloque completo del archivo
 using Microsoft.EntityFrameworkCore;
 using SisAlq.Api.Shared.Models;
 using SisAlq.Api.Shared.Models.Catalogos;
@@ -16,6 +15,7 @@ public class SisAlqDbContext : DbContext
     public DbSet<Usuario> Usuarios => Set<Usuario>();
     public DbSet<ContratoCab> ContratosCab => Set<ContratoCab>();
     public DbSet<ContratoDet> ContratosDetalle => Set<ContratoDet>();
+    public DbSet<ConceptoConsumoServicio> ConceptosConsumo => Set<ConceptoConsumoServicio>();
 
     // Tablas de catálogo
     public DbSet<TipoInmueble> TiposInmueble => Set<TipoInmueble>();
