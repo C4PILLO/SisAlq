@@ -28,4 +28,5 @@ public class ContratoCab
     public int MesesGarantia { get; set; }
     public string ModalidadPago { get; set; } = "Adelantado";
     public int CuotasPendientes { get; set; }
+    public string? UrlDocumento { get; set; }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SisAlq.Api.Shared.Data;
@@ -11,9 +12,11 @@ using SisAlq.Api.Shared.Data;
 namespace SisAlq.Api.Migrations
 {
     [DbContext(typeof(SisAlqDbContext))]
-    partial class SisAlqDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260702043450_AddContratoActivar")]
+    partial class AddContratoActivar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
