@@ -102,7 +102,7 @@ public static class CreateContrato
             TipoNegocio      = req.TipoNegocio,
             FechaInicio      = req.FechaInicio,
             FechaVcmto       = fechaVcmto,
-            IdEstadoContrato = 1, // Vigente
+            IdEstadoContrato = 4, // Doc Pendiente
             NroMeses         = req.NroMeses,
             IdUsuario        = usuario.IdUsuario,
             IdMoneda         = req.IdMoneda,
@@ -127,12 +127,6 @@ public static class CreateContrato
 
         db.ContratosDetalle.Add(detalle);
 
-        // ── Actualizar estado inmueble → Ocupado ─────────────────
-        var estadoOcupado = await db.EstadosInmueble
-            .FirstAsync(e => e.Descripcion == "Ocupado");
-
-        inmueble.IdEstadoInmueble = estadoOcupado.IdEstadoInmueble;
-
         await db.SaveChangesAsync();
 
         // ── Response ─────────────────────────────────────────────
@@ -149,7 +143,7 @@ public static class CreateContrato
             MesesGarantia: req.MesesGarantia,
             ModalidadPago: req.ModalidadPago,
             CuotasPendientes: req.CuotasPendientes,
-            EstadoContrato:  "Vigente"
+            EstadoContrato: "Doc Pendiente"
         ));
     }
 }

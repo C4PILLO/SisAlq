@@ -25,5 +25,8 @@ public static class ContratoEndpoints
         group.MapPut("/{id:int}/renovar", RenovarContrato.Handle)
              .WithSummary("Renovar contrato próximo a vencer")
              .RequireAuthorization(p => p.RequireRole("Administrador", "Asistente"));
+        group.MapPut("/{id:int}/activar", ActivarContrato.Handle)
+             .WithSummary("Activar contrato subiendo URL del documento PDF")
+             .RequireAuthorization(p => p.RequireRole("Administrador", "Asistente"));
     }
 }

@@ -24,6 +24,7 @@ public class ContratoCabConfiguration : IEntityTypeConfiguration<ContratoCab>
         builder.Property(x => x.MesesGarantia).IsRequired().HasDefaultValue(0);
         builder.Property(x => x.ModalidadPago).IsRequired().HasMaxLength(20).HasDefaultValue("Adelantado");
         builder.Property(x => x.CuotasPendientes).IsRequired().HasDefaultValue(0);
+        builder.Property(x => x.UrlDocumento).HasMaxLength(500);
         builder.Property(x => x.FechaRegistro).IsRequired().HasDefaultValueSql("NOW()");
 
         builder.HasOne(x => x.Inquilino).WithMany().HasForeignKey(x => x.IdInquilino);
