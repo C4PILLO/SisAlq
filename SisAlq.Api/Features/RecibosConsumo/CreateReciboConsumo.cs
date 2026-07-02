@@ -27,6 +27,11 @@ public static class CreateReciboConsumo
         if (existe)
             return Results.Conflict(new { mensaje = "Ya existe un recibo para ese periodo." });
 
+        var diasParam = await db.Parametros
+        .FirstOrDefaultAsync(p => p.Clave == "DIAS_VENCIMIENTO_RECIBO");
+            
+        int diasVencimiento = diasParam is not null ? int.Parse(diasParam.Valor) : 5;
+
         var recibo = new RingresoConsumoCab
         {
             IdInmueble       = request.IdInmueble,
@@ -34,7 +39,7 @@ public static class CreateReciboConsumo
             IdMoneda         = contrato.IdMoneda,
             GlosaConcepto    = request.GlosaConcepto.ToUpper().Trim(),
             FechaEmision     = DateTime.UtcNow,
-            FechaVencimiento = DateTime.UtcNow.AddDays(5),
+            FechaVencimiento = DateTime.UtcNow.AddDays(diasVencimiento),
             Usuario          = request.Usuario
         };
 
