@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SisAlq.Api.Shared.Data;
@@ -11,9 +12,11 @@ using SisAlq.Api.Shared.Data;
 namespace SisAlq.Api.Migrations
 {
     [DbContext(typeof(SisAlqDbContext))]
-    partial class SisAlqDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260702030546_AddContratoCamposNuevos")]
+    partial class AddContratoCamposNuevos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,9 +280,7 @@ namespace SisAlq.Api.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdContrato"));
 
                     b.Property<int>("CuotasPendientes")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0);
+                        .HasColumnType("integer");
 
                     b.Property<DateOnly>("FechaContrato")
                         .HasColumnType("date");
@@ -311,16 +312,11 @@ namespace SisAlq.Api.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("MesesGarantia")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0);
+                        .HasColumnType("integer");
 
                     b.Property<string>("ModalidadPago")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasDefaultValue("Adelantado");
+                        .HasColumnType("text");
 
                     b.Property<string>("NroContrato")
                         .IsRequired()
@@ -337,10 +333,6 @@ namespace SisAlq.Api.Migrations
                     b.Property<string>("TipoNegocio")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
-
-                    b.Property<string>("UrlDocumento")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
 
                     b.HasKey("IdContrato");
 
@@ -553,10 +545,6 @@ namespace SisAlq.Api.Migrations
 
                     b.Property<int>("IdMoneda")
                         .HasColumnType("integer");
-
-                    b.Property<string>("TipoRecibo")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<decimal>("TotalRecibo")
                         .ValueGeneratedOnAdd()

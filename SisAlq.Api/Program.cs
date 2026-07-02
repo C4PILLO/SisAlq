@@ -1,7 +1,9 @@
 ﻿using SisAlq.Api.Features.Auth;
+using SisAlq.Api.Features.Configuracion;
 using SisAlq.Api.Features.Contratos;
 using SisAlq.Api.Features.Inmuebles;
 using SisAlq.Api.Features.Inquilinos;
+using SisAlq.Api.Features.RecibosConsumo;
 using SisAlq.Api.Shared.Extensions;
 using SisAlq.Api.Shared.Infrastructure;
 using SisAlq.Api.Shared.Middleware;
@@ -35,5 +37,7 @@ app.MapAuthEndpoints();
 app.MapInmuebleEndpoints();
 app.MapInquilinoEndpoints();
 app.MapContratoEndpoints();
+app.MapReciboConsumoEndpoints();
+app.MapConfiguracionEndpoints();
 
 app.Run();

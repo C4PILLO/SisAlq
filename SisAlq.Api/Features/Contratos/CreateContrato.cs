@@ -17,7 +17,10 @@ public static class CreateContrato
         decimal Garantia,
         // Detalle
         int IdInmueble,
-        decimal RentaMensual
+        decimal RentaMensual,
+        int MesesGarantia,
+        string ModalidadPago,
+        int CuotasPendientes
     );
 
     public record Response(
@@ -30,6 +33,9 @@ public static class CreateContrato
         int NroMeses,
         decimal RentaMensual,
         decimal Garantia,
+        int MesesGarantia,
+        string ModalidadPago,
+        int CuotasPendientes,
         string EstadoContrato
     );
 
@@ -96,11 +102,14 @@ public static class CreateContrato
             TipoNegocio      = req.TipoNegocio,
             FechaInicio      = req.FechaInicio,
             FechaVcmto       = fechaVcmto,
-            IdEstadoContrato = 1, // Vigente
+            IdEstadoContrato = 4, // Doc Pendiente
             NroMeses         = req.NroMeses,
             IdUsuario        = usuario.IdUsuario,
             IdMoneda         = req.IdMoneda,
-            Garantia         = req.Garantia
+            Garantia         = req.Garantia,
+            MesesGarantia = req.MesesGarantia,
+            ModalidadPago = req.ModalidadPago,
+            CuotasPendientes = req.CuotasPendientes
         };
 
         db.ContratosCab.Add(contrato);
@@ -118,12 +127,6 @@ public static class CreateContrato
 
         db.ContratosDetalle.Add(detalle);
 
-        // ── Actualizar estado inmueble → Ocupado ─────────────────
-        var estadoOcupado = await db.EstadosInmueble
-            .FirstAsync(e => e.Descripcion == "Ocupado");
-
-        inmueble.IdEstadoInmueble = estadoOcupado.IdEstadoInmueble;
-
         await db.SaveChangesAsync();
 
         // ── Response ─────────────────────────────────────────────
@@ -137,7 +140,10 @@ public static class CreateContrato
             NroMeses:        req.NroMeses,
             RentaMensual:    req.RentaMensual,
             Garantia:        req.Garantia,
-            EstadoContrato:  "Vigente"
+            MesesGarantia: req.MesesGarantia,
+            ModalidadPago: req.ModalidadPago,
+            CuotasPendientes: req.CuotasPendientes,
+            EstadoContrato: "Doc Pendiente"
         ));
     }
 }
