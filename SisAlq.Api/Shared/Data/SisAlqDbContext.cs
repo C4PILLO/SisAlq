@@ -18,6 +18,7 @@ public class SisAlqDbContext : DbContext
     public DbSet<RingresoConsumoCab> RecibosConsumo => Set<RingresoConsumoCab>();
     public DbSet<RingresoConsumoDet> RecibosConsumoDetalle => Set<RingresoConsumoDet>();
     public DbSet<ConceptoConsumoServicio> ConceptosConsumo => Set<ConceptoConsumoServicio>();
+    public DbSet<ConfiguracionParametro> Parametros => Set<ConfiguracionParametro>();
 
     // Tablas de catálogo
     public DbSet<TipoInmueble> TiposInmueble => Set<TipoInmueble>();
