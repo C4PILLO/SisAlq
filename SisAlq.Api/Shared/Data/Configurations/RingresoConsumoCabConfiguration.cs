@@ -14,6 +14,7 @@ public class RingresoConsumoCabConfiguration : IEntityTypeConfiguration<Ringreso
         builder.Property(x => x.GlosaConcepto).IsRequired().HasMaxLength(50);
         builder.Property(x => x.TotalRecibo).HasColumnType("decimal(12,2)").HasDefaultValue(0m);
         builder.Property(x => x.Usuario).IsRequired().HasMaxLength(15);
+        builder.Property(x => x.TipoRecibo).IsRequired().HasMaxLength(20).HasDefaultValue("CONSUMO");
         builder.Property(x => x.FechaEmision).IsRequired().HasDefaultValueSql("NOW()");
         builder.Property(x => x.FechaVencimiento).IsRequired();
         builder.Property(x => x.FechaRegistro).IsRequired().HasDefaultValueSql("NOW()");
@@ -22,6 +23,6 @@ public class RingresoConsumoCabConfiguration : IEntityTypeConfiguration<Ringreso
         builder.HasOne(x => x.Inquilino).WithMany().HasForeignKey(x => x.IdInquilino);
         builder.HasOne(x => x.Moneda).WithMany().HasForeignKey(x => x.IdMoneda);
 
-        builder.HasIndex(x => new { x.IdInmueble, x.GlosaConcepto }).IsUnique();
+        builder.HasIndex(x => new { x.IdInmueble, x.GlosaConcepto, x.TipoRecibo }).IsUnique();
     }
 }

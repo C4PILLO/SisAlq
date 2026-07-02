@@ -13,8 +13,8 @@ public class RingresoConsumoCab
     public string GlosaConcepto { get; set; } = null!;
     public decimal TotalRecibo { get; set; } = 0;
     public string Usuario { get; set; } = null!;
+    public string TipoRecibo { get; set; } = "CONSUMO"; // CONSUMO | ALQUILER
     public DateTime FechaRegistro { get; set; } = DateTime.UtcNow;
-
     public Inmueble Inmueble { get; set; } = null!;
     public Inquilino Inquilino { get; set; } = null!;
     public Moneda Moneda { get; set; } = null!;
