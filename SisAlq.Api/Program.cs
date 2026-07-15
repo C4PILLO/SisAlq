@@ -20,8 +20,15 @@ builder.Services.AddHttpClient("ApisPeruClient");
 var app = builder.Build();
 
 // ─── Seeder ───────────────────────────────────────────────────
-await app.SeedAdminUserAsync();
-await app.SeedEstadosContratoAsync();
+try
+{
+    await app.SeedAdminUserAsync();
+    await app.SeedEstadosContratoAsync();
+}
+catch (Exception ex)
+{
+    app.Logger.LogError(ex, "Error al ejecutar el seeding inicial. La aplicación continuará sin seed.");
+}
 
 // ─── Pipeline ─────────────────────────────────────────────────
 app.UseErrorHandling();
