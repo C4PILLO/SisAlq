@@ -11,7 +11,15 @@ public static class DatabaseExtensions
     {
         services.AddDbContext<SisAlqDbContext>(options =>
             options.UseNpgsql(
-                configuration.GetConnectionString("DefaultConnection")));
+                configuration.GetConnectionString("DefaultConnection"),
+                npgsqlOptions =>
+                {
+                    npgsqlOptions.CommandTimeout(60);
+                    npgsqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 3,
+                        maxRetryDelay: TimeSpan.FromSeconds(5),
+                        errorCodesToAdd: null);
+                }));
 
         services.AddDatabaseDeveloperPageExceptionFilter();
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SisAlq.Api.Shared.Data;
+using SisAlq.Api.Shared.Extensions;
 using SisAlq.Api.Shared.Models;
 
 namespace SisAlq.Api.Features.RecibosConsumo;
@@ -48,6 +49,7 @@ public static class GenerarRecibosIniciales
 
         db.RecibosConsumo.Add(reciboGarantia);
         await db.SaveChangesAsync();
+        await db.UpsertDocumentoXCobrarAsync(reciboGarantia);
 
         var detGarantia = new RingresoConsumoDet
         {
@@ -82,6 +84,7 @@ public static class GenerarRecibosIniciales
 
         db.RecibosConsumo.Add(reciboAlquiler);
         await db.SaveChangesAsync();
+        await db.UpsertDocumentoXCobrarAsync(reciboAlquiler);
 
         var detAlquiler = new RingresoConsumoDet
         {
@@ -115,3 +118,4 @@ public static class GenerarRecibosIniciales
         });
     }
 }
+

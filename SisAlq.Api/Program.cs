@@ -1,4 +1,5 @@
 ﻿using SisAlq.Api.Features.Auth;
+using SisAlq.Api.Features.Cobranzas;
 using SisAlq.Api.Features.Configuracion;
 using SisAlq.Api.Features.Contratos;
 using SisAlq.Api.Features.Inmuebles;
@@ -20,8 +21,15 @@ builder.Services.AddHttpClient("ApisPeruClient");
 var app = builder.Build();
 
 // ─── Seeder ───────────────────────────────────────────────────
-await app.SeedAdminUserAsync();
-await app.SeedEstadosContratoAsync();
+try
+{
+    await app.SeedAdminUserAsync();
+    await app.SeedEstadosContratoAsync();
+}
+catch (Exception ex)
+{
+    app.Logger.LogError(ex, "Error al ejecutar el seeding inicial. La aplicación continuará sin seed.");
+}
 
 // ─── Pipeline ─────────────────────────────────────────────────
 app.UseErrorHandling();
@@ -38,6 +46,8 @@ app.MapInmuebleEndpoints();
 app.MapInquilinoEndpoints();
 app.MapContratoEndpoints();
 app.MapReciboConsumoEndpoints();
+app.MapCobranzaEndpoints();
 app.MapConfiguracionEndpoints();
 
 app.Run();
+

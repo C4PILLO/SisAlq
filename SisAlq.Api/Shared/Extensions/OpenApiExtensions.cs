@@ -1,4 +1,4 @@
-using Scalar.AspNetCore;
+﻿using Scalar.AspNetCore;
 
 namespace SisAlq.Api.Shared.Extensions;
 
@@ -14,17 +14,16 @@ public static class OpenApiExtensions
     public static WebApplication UseOpenApiDocs(
         this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
+        app.MapOpenApi();
+        app.MapScalarApiReference(options =>
         {
-            app.MapOpenApi();
-            app.MapScalarApiReference(options =>
-            {
-                options.WithTitle("SisAlq API — MAEL S.R.L.")
-                       .WithTheme(ScalarTheme.DeepSpace)
-                       .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
-            });
+            options.WithTitle("SisAlq API — MAEL S.R.L.")
+                   .WithTheme(ScalarTheme.DeepSpace)
+                   .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+        });
+
+        if (app.Environment.IsDevelopment())
             app.UseDeveloperExceptionPage();
-        }
 
         return app;
     }
