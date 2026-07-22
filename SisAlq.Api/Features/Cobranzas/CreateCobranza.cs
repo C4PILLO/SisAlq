@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SisAlq.Api.Shared.Data;
 using SisAlq.Api.Shared.Models;
 
 namespace SisAlq.Api.Features.Cobranzas;
 
-public record CobranzaItemRequest(string CodigoTD, int NroDocumento, decimal ImporteAPagar);
+public record CobranzaItemRequest(string CodigoTD, int NroDocumento, decimal ImporteAPagar, decimal Mora = 0);
 
 public record CreateCobranzaRequest(
     int IdInquilino,
@@ -60,7 +60,7 @@ public static class CreateCobranza
             aliasBanco = banco.Alias;
         }
 
-        var docsACobrar = new List<(DocumentoXCobrar Doc, decimal ImporteAPagar)>();
+        var docsACobrar = new List<(DocumentoXCobrar Doc, decimal ImporteAPagar, decimal Mora)>();
 
         foreach (var item in request.Documentos)
         {
@@ -81,7 +81,14 @@ public static class CreateCobranza
             if (item.ImporteAPagar > doc.Saldo)
                 return Results.BadRequest(new { mensaje = string.Format("El importe a pagar (S/ {0}) no puede ser mayor al saldo (S/ {1}) del documento {2}-{3}.", item.ImporteAPagar, doc.Saldo, item.CodigoTD, item.NroDocumento) });
 
-            docsACobrar.Add((doc, item.ImporteAPagar));
+            var estaVencido = doc.FechaVcmto < DateTime.UtcNow;
+            if (!estaVencido && item.Mora > 0)
+                return Results.BadRequest(new { mensaje = string.Format("No se puede aplicar mora: el documento {0}-{1} aun no vence (vence {2:dd/MM/yyyy}).", item.CodigoTD, item.NroDocumento, doc.FechaVcmto) });
+
+            if (item.Mora < 0)
+                return Results.BadRequest(new { mensaje = "La mora no puede ser negativa." });
+
+            docsACobrar.Add((doc, item.ImporteAPagar, item.Mora));
         }
 
         var idMoneda = docsACobrar[0].Doc.IdMoneda;
@@ -103,7 +110,7 @@ public static class CreateCobranza
                 IdInquilino  = request.IdInquilino,
                 IdMoneda     = idMoneda,
                 TotalCobrado = totalCobrado,
-                Mora         = 0,
+                Mora         = docsACobrar.Sum(x => x.Mora),
                 Observacion  = request.Observacion,
                 Usuario      = request.Usuario,
                 Estado       = "A"
@@ -115,7 +122,7 @@ public static class CreateCobranza
             int secuencia = 1;
             var detalleResumen = new List<object>();
 
-            foreach (var (doc, importeAPagar) in docsACobrar)
+            foreach (var (doc, importeAPagar, mora) in docsACobrar)
             {
                 var nuevoSaldo = doc.Saldo - importeAPagar;
 
@@ -130,7 +137,7 @@ public static class CreateCobranza
                     AliasBanco   = aliasBanco,
                     NroOperacion = request.NroOperacion,
                     Importe      = doc.Importe,
-                    Mora         = 0,
+                    Mora         = mora,
                     Descuento    = 0,
                     TotalPagado  = importeAPagar,
                     EstadoPago   = nuevoSaldo <= 0 ? "Cancelado" : "Parcial"
