@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SisAlq.Api.Shared.Data;
+using SisAlq.Api.Shared.Extensions;
 
 namespace SisAlq.Api.Features.RecibosConsumo;
 
@@ -19,8 +20,10 @@ public static class DeleteDetalleRecibo
 
         db.RecibosConsumoDetalle.Remove(detalle);
         recibo.TotalRecibo = recibo.Detalle.Where(d => d.Item != item).Sum(d => d.Importe);
+        await db.UpsertDocumentoXCobrarAsync(recibo);
         await db.SaveChangesAsync();
 
         return Results.Ok(new { mensaje = "Concepto eliminado.", recibo.TotalRecibo });
     }
 }
+

@@ -74,3 +74,38 @@ public class RolConfiguration : IEntityTypeConfiguration<Rol>
         builder.Property(x => x.FechaRegistro).IsRequired().HasDefaultValueSql("NOW()");
     }
 }
+public class TipoComprobanteConfiguration : IEntityTypeConfiguration<TipoComprobante>
+{
+    public void Configure(EntityTypeBuilder<TipoComprobante> builder)
+    {
+        builder.ToTable("TIPO_COMPROBANTE");
+        builder.HasKey(x => x.CodigoTD);
+        builder.Property(x => x.CodigoTD).HasMaxLength(2).IsRequired();
+        builder.Property(x => x.Descripcion).IsRequired().HasMaxLength(30);
+        builder.Property(x => x.Correlativo).IsRequired().HasDefaultValue(0);
+    }
+}
+
+public class BancoConfiguration : IEntityTypeConfiguration<Banco>
+{
+    public void Configure(EntityTypeBuilder<Banco> builder)
+    {
+        builder.ToTable("BANCOS");
+        builder.HasKey(x => x.CodigoBanco);
+        builder.Property(x => x.CodigoBanco).HasMaxLength(2).IsRequired();
+        builder.Property(x => x.Descripcion).IsRequired().HasMaxLength(50);
+        builder.Property(x => x.Estado).IsRequired().HasMaxLength(1).HasDefaultValue("A");
+        builder.Property(x => x.Alias).HasMaxLength(15);
+    }
+}
+
+public class MedioPagoConfiguration : IEntityTypeConfiguration<MedioPago>
+{
+    public void Configure(EntityTypeBuilder<MedioPago> builder)
+    {
+        builder.ToTable("MEDIO_PAGO");
+        builder.HasKey(x => x.CodigoMedioPago);
+        builder.Property(x => x.CodigoMedioPago).HasMaxLength(2).IsRequired();
+        builder.Property(x => x.Descripcion).IsRequired().HasMaxLength(50);
+    }
+}

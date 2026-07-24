@@ -12,7 +12,11 @@ public static class CorsExtensions
             {
                 policy.WithOrigins(
                         "http://localhost:5173",
-                        "https://gestion-pro-yw4g.vercel.app"
+                        "https://gestion-pro-yw4g.vercel.app",
+                        "http://localhost:5151",
+                        "https://localhost:7235",
+                        "http://localhost:5500",
+                        "http://127.0.0.1:5500"
                       )
                       .AllowAnyHeader()
                       .AllowAnyMethod();

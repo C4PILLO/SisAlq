@@ -1,6 +1,9 @@
-﻿using SisAlq.Api.Features.Auth;
+using SisAlq.Api.Features.Auth;
+using SisAlq.Api.Features.Cobranzas;
 using SisAlq.Api.Features.Configuracion;
+using SisAlq.Api.Features.ConceptosConsumo;
 using SisAlq.Api.Features.Contratos;
+using SisAlq.Api.Features.Reportes;
 using SisAlq.Api.Features.Inmuebles;
 using SisAlq.Api.Features.Inquilinos;
 using SisAlq.Api.Features.RecibosConsumo;
@@ -10,7 +13,7 @@ using SisAlq.Api.Shared.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ─── Servicios ────────────────────────────────────────────────
+// --- Servicios ------------------------------------------------
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddJwtAuth(builder.Configuration);
 builder.Services.AddCorsPolicy(builder.Configuration);
@@ -19,7 +22,7 @@ builder.Services.AddHttpClient("ApisPeruClient");
 
 var app = builder.Build();
 
-// ─── Seeder ───────────────────────────────────────────────────
+// --- Seeder ---------------------------------------------------
 try
 {
     await app.SeedAdminUserAsync();
@@ -27,10 +30,10 @@ try
 }
 catch (Exception ex)
 {
-    app.Logger.LogError(ex, "Error al ejecutar el seeding inicial. La aplicación continuará sin seed.");
+    app.Logger.LogError(ex, "Error al ejecutar el seeding inicial. La aplicaci�n continuar� sin seed.");
 }
 
-// ─── Pipeline ─────────────────────────────────────────────────
+// --- Pipeline -------------------------------------------------
 app.UseErrorHandling();
 app.UseHttpsRedirection();
 app.UseCors("SisAlqPolicy");
@@ -38,13 +41,17 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseOpenApiDocs();
 
-// ─── Endpoints ────────────────────────────────────────────────
+// --- Endpoints ------------------------------------------------
 app.MapGet("/health", () => Results.Ok("healthy")).AllowAnonymous();
 app.MapAuthEndpoints();
 app.MapInmuebleEndpoints();
 app.MapInquilinoEndpoints();
 app.MapContratoEndpoints();
+app.MapConceptoConsumoEndpoints();
 app.MapReciboConsumoEndpoints();
+app.MapCobranzaEndpoints();
 app.MapConfiguracionEndpoints();
+app.MapReporteEndpoints();
 
 app.Run();
+

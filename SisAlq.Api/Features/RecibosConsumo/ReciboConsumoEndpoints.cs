@@ -14,5 +14,12 @@ public static class ReciboConsumoEndpoints
         group.MapPost("/{id:int}/detalle", AddDetalleRecibo.Handle);
         group.MapDelete("/{id:int}/detalle/{item:int}", DeleteDetalleRecibo.Handle);
         group.MapPost("/generar-iniciales", GenerarRecibosIniciales.Handle);
+
+        var alquilerGroup = app.MapGroup("/api/recibos-alquiler")
+                               .WithTags("Recibos de Alquiler")
+                               .RequireAuthorization();
+
+        alquilerGroup.MapPost("/", CreateReciboAlquiler.Handle);
     }
 }
+

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SisAlq.Api.Shared.Data;
+using SisAlq.Api.Shared.Extensions;
 using SisAlq.Api.Shared.Models;
 
 namespace SisAlq.Api.Features.RecibosConsumo;
@@ -70,8 +71,10 @@ public static class AddDetalleRecibo
             .Where(d => d.Item != nextItem)
             .Sum(d => d.Importe) + importe;
 
+        await db.UpsertDocumentoXCobrarAsync(recibo);
         await db.SaveChangesAsync();
 
         return Results.Ok(new { mensaje = "Concepto agregado.", detalle.Item, detalle.Importe, recibo.TotalRecibo });
     }
 }
+

@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SisAlq.Api.Shared.Models;
 using SisAlq.Api.Shared.Models.Catalogos;
 
@@ -19,8 +19,11 @@ public class SisAlqDbContext : DbContext
     public DbSet<RingresoConsumoDet> RecibosConsumoDetalle => Set<RingresoConsumoDet>();
     public DbSet<ConceptoConsumoServicio> ConceptosConsumo => Set<ConceptoConsumoServicio>();
     public DbSet<ConfiguracionParametro> Parametros => Set<ConfiguracionParametro>();
+    public DbSet<DocumentoXCobrar> DocumentosXCobrar => Set<DocumentoXCobrar>();
+    public DbSet<CobranzaCab> CobranzasCab => Set<CobranzaCab>();
+    public DbSet<CobranzaDet> CobranzasDet => Set<CobranzaDet>();
 
-    // Tablas de catálogo
+    // Tablas de catÃ¡logo
     public DbSet<TipoInmueble> TiposInmueble => Set<TipoInmueble>();
     public DbSet<EstadoInmueble> EstadosInmueble => Set<EstadoInmueble>();
     public DbSet<Sector> Sectores => Set<Sector>();
@@ -29,6 +32,9 @@ public class SisAlqDbContext : DbContext
     public DbSet<Moneda> Monedas => Set<Moneda>();
     public DbSet<Rol> Roles => Set<Rol>();
     public DbSet<EstadoContrato> EstadosContrato => Set<EstadoContrato>();
+    public DbSet<TipoComprobante> TiposComprobante => Set<TipoComprobante>();
+    public DbSet<Banco> Bancos => Set<Banco>();
+    public DbSet<MedioPago> MediosPago => Set<MedioPago>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -36,3 +42,5 @@ public class SisAlqDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SisAlqDbContext).Assembly);
     }
 }
+
+
